@@ -1,7 +1,10 @@
 class ActivityController < ApplicationController
-  def mine
-  end
+	authorize_resource :class => "ActivityController"
 
-  def feed
-  end
+  	def mine
+  	end
+
+  	def feed
+  	end
+
 end

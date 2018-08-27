@@ -6,6 +6,12 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_account
 
+  rescue_from CanCan::AccessDenid do |exception|
+    redirect_to root_url, :error => exception.message
+  end
+  add_flash_types :error
+  
+
   def current_account
     @current_account ||= current_user.account
     @current_account
