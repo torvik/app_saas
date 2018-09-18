@@ -6,17 +6,29 @@ class Standup < ApplicationRecord
 
   has_many :task_memberships
   has_many :task, through: :task_memberships
+  
   has_many :dids,
-  		   -> { wehre(type: 'Did') },
-  		   through: :task_memberships,
-  		   source: :task
+    		   -> { wehre(type: 'Did') },
+    		   through: :task_memberships,
+    		   source: :task
+  accepts_nested_attributes_for :dids,
+                                reject_if: :all_blank,
+                                allow_destroy: true
+  
   has_many :todos,
-  		   -> { where(type: 'Todo') },
-  		   through: :task_memberships,
-  		   source: :task
+    		   -> { where(type: 'Todo') },
+    		   through: :task_memberships,
+    		   source: :task
+  accepts_nested_attributes_for :todos,
+                                reject_if: :all_blank,
+                                allow_destroy: true
+  
   has_many :blockers,
-  		   -> { where(type: 'Blocker') },
-  		   through: :task_memberships, 
-  		   source: :task
+    		   -> { where(type: 'Blocker') },
+    		   through: :task_memberships, 
+    		   source: :task
+  accepts_nested_attributes_for :blockers,
+                                reject_if: :all_blank,
+                                allow_destroy: true           
 
 end
