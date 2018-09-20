@@ -36,11 +36,12 @@ class StandupsController < ApplicationController
     @standup.user = current_user
 
     if @standup.save
-      redict_back (
+      redirect_back(
         fallback_location: root_path,
-        notice: 'Standup was successfully created.')
+        notice: 'Standup was successfully created.'
+      )
     else
-      render :new 
+      render :new
     end
   end
 
@@ -49,7 +50,7 @@ class StandupsController < ApplicationController
   # PATCH/PUT /standups/1.json
   def update
     if @standup.update(standup_params)
-      redict_back(
+      redirect_back(
         fallback_location: root_path,
         notice: 'Standup was successfully updated.')
     end

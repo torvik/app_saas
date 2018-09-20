@@ -1,6 +1,6 @@
 $(document).on 'turbolinks:load', ->
   $('#datePickerInput').datepicker(
-	  todayHighlight: true
+      todayHighlight: true
       format: "yyyy-mm-dd"
       autoClose: true
     )

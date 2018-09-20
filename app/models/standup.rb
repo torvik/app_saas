@@ -8,7 +8,7 @@ class Standup < ApplicationRecord
   has_many :task, through: :task_memberships
   
   has_many :dids,
-    		   -> { wehre(type: 'Did') },
+    		   -> { where(type: 'Did') },
     		   through: :task_memberships,
     		   source: :task
   accepts_nested_attributes_for :dids,
