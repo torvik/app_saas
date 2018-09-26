@@ -21,7 +21,11 @@ get 'user/password', to: 'users#password', as: 'my_password'
 patch 'user/update_password',to:'users#update_password',as:'my_update_password'
 
 scope 'account', as: 'account' do
-  resources :users
+  resources :users do 
+  	member do
+  		get 's', to: 'users#standups', as: 'standups'
+  	end
+  end
 end
 
 get 'activity/mine'

@@ -7,7 +7,11 @@ class TeamsController < ApplicationController
 	end
 
 	def show
-		@team = Team.friendly.includes(:users).find(params[:id])
+		set_teams_and_standups(Data.today.iso8601)
+	end
+
+	def standups
+		set_teams_and_standups(current_date)
 	end
 
 	def new 
@@ -59,6 +63,15 @@ class TeamsController < ApplicationController
 		@account_users ||=
 		 current_account.users.where.not(invitation_accepted_at: nil) +
 		 current_account.users(:admin).uniq
+	end
+
+	def set_teams_and_standups(date)
+		@team = Team.friendly.includes(:users).find(params[:id])
+		@standups = @team.users.flat_map do |u|
+			u.standups.where(standup_date: date)
+			.includes(:dids, :todos, :blockers)
+			.references(:tasks)
+		end
 	end
 
 	def days_of_the_week

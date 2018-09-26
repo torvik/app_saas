@@ -9,6 +9,17 @@ class UsersController < ApplicationController
   def show
   end
 
+  def standups
+    @user = User
+    .friendly
+    .find(params[:id])
+    @standups = @user
+      .standups
+      .includes(:dids, :todos, :blockers)
+      .references(:tasks)
+      .order('standup_date DESC')
+  end
+
   def new
     @user = User.new
     set_choices
