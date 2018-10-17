@@ -39,17 +39,18 @@ class NewRegistrationService
 
 	def send_welcome_email
 		## NO OP
-		#WelcomeEmailMailer.welcome_email(user).deliver_later
+		WelcomeEmailMailer.welcome_email(user).deliver_later
 	end
 
 	def notify_slack
-		notifier = Slack::Notifier.new(
-			"https://hooks.slack.com/services/89ypfhuiwquhfwfwef908wefoij"
-		)
-		notifier.ping(
-			"A New User has appeared! #{account.name} - #{user.name}\
-			 || ENV: #{Rails.env}"
-		 )
+		SlackNotificationJob.perform_later(@user)
+		# notifier = Slack::Notifier.new(
+		# 	"https://hooks.slack.com/services/89ypfhuiwquhfwfwef908wefoij"
+		# )
+		# notifier.ping(
+		# 	"A New User has appeared! #{account.name} - #{user.name}\
+		# 	 || ENV: #{Rails.env}"
+		#  )
 	end
 end
 

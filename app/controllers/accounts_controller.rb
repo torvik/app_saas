@@ -8,11 +8,13 @@ class AccountsController < ApplicationController
 
 	def create 
 		@account = Account.new(account_params)
-		result = NewRegistrationService.(account: @account, user: current_user)
-		if result.success?
+		if @account.save 
+			current_user.account = @account
+			current_user.add_role :admin, @account
+			current_user.save
+			SlackNotificationJob.perform_later(current_user)
 			redirect_to root_path, success: 'Your account has been created!'
 		else
-			@account = result.account
 			render :new
 		end
 	end
